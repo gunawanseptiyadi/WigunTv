@@ -17,7 +17,7 @@ app.use((request, response, next) => {
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use("/", routesNavigation);
-app.use(express.static("/image"));
+app.use(express.static("image"));
 
 app.get("*", (request, response) => {
     response.status(404).send("Path not found !");
