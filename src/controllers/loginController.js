@@ -1,6 +1,6 @@
 const response = require("../helpers/response");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 
 const {
   getAllLoginModel,
@@ -12,23 +12,6 @@ const {
 } = require("../models/loginModel");
 
 module.exports = {
-  registerUsers: async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      const salt = bcrypt.genSaltSync(10);
-      const encryptPassword = bcrypt.hashSync(password, salt);
-      const setData = {
-        username,
-        password: encryptPassword,
-        users_created_at: new Date(),
-      };
-      const result = await registerUsersModel(setData);
-      return helper.response(res, 200, "Success register Users", result);
-    } catch (error) {
-      console.log(error);
-      return helper.response(res, 400, "Bad Request", error);
-    }
-  },
   loginUsers: async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -45,8 +28,8 @@ module.exports = {
             username,
             email,
           };
-          const token = jwt.sign(payload, "RAHASIA", { expiresIn: "3h" });
-          const result = { ...payload, token };
+        //   const token = jwt.sign(payload, "RAHASIA", { expiresIn: "3h" });
+        //   const result = { ...payload, token };
           return helper.response(res, 200, "You are Loging in !", result);
         } else {
           return helper.response(res, 400, "Password Incorrect !");

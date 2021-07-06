@@ -2,20 +2,11 @@ const client = require("../config/postgre");
 
 module.exports = {
   registerUsersModel: (setData) => {
-    return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO auth SET ?", setData, (error, result) => {
-        if (!error) {
-          const newResult = {
-            id_log: result.insertId,
-            ...setData,
-          };
-          delete newResult.users_password;
-          resolve(newResult);
-        } else {
-          reject(new Error(error));
-        }
-      });
-    });
+    
+      client.query("INSERT INTO auth (username, password, id_reg) VALUES ($1, $2, $3)",
+      [setData.username, setData.password, setData.id_reg],
+      );
+    
   },
   loginUsersEmailModel: (email) => {
     return new Promise((resolve, reject) => {

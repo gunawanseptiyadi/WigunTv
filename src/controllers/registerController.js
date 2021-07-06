@@ -1,10 +1,16 @@
 const response = require("../helpers/response");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const {
   getAllRegisterModel,
   postRegisterModel,
   updateDataRegisterModel,
 } = require("../models/registerModel");
+
+const {
+    registerUsersModel
+} = require("../models/loginModel");
 
 module.exports = {
   getAllRegister: async (req, res) => {
@@ -24,6 +30,16 @@ module.exports = {
     try {
       console.log(req.file.filename);
       const result = await postRegisterModel(req.body, req.file.filename);
+      const { username, password } = req.body;
+      const salt = bcrypt.genSaltSync(10);
+      const encryptPassword = bcrypt.hashSync(password, salt);
+      console.log(result[0].id_reg);
+      const setData = {
+        username,
+        password: encryptPassword,
+        id_reg: result[0].id_reg
+      };
+      await registerUsersModel(setData);
       return response.response(res, 200, "Success post register data", result);
     } catch (error) {
       console.log(error);
