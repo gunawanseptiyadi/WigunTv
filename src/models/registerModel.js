@@ -28,11 +28,11 @@ module.exports = {
             });
         });
     },
-    updateDataRegisterModel: (data, id) => {
+    updateDataRegisterModel: (data, id, photo) => {
         return new Promise((resolve, reject) => {
             client.query(
-            `UPDATE register SET first_name = '${data.first_name}', last_name = '${data.last_name}', email = '${data.email}', tgl_lahir = '${data.tgl_lahir}', gender = '${data.gender}' WHERE id_reg = ${id}
-                RETURNING id_reg, first_name, last_name, email, tgl_lahir, gender`, 
+            `UPDATE register SET first_name = '${data.first_name}', last_name = '${data.last_name}', email = '${data.email}', tgl_lahir = '${data.tgl_lahir}', gender = '${data.gender}', photo_profil = '${photo}' WHERE id_reg = ${id}
+                RETURNING id_reg, first_name, last_name, email, tgl_lahir, gender, photo_profil`, 
             (error, result) => {
                 if(!error) {
                     resolve(result.rows);
