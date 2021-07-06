@@ -8,13 +8,13 @@ module.exports = {
       );
     
   },
-  loginUsersEmailModel: (email) => {
+  loginUsersModel: (username) => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        "SELECT id_log, username, email, password FROM register a inner join auth b on a.id_reg = b.id_reg",
-        email,
+      client.query(
+        "SELECT * FROM auth WHERE username = $1",
+        [username],
         (error, result) => {
-          !error ? resolve(result) : reject(new Error(error));
+          !error ? resolve(result.rows) : reject(new Error(error));
         }
       );
     });

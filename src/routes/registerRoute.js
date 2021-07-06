@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const { getAllRegister, insertRegister, updateDataRegister } = require('../controllers/registerController')
 
-const uploadPhoto = require('../../middleware/multerProfile')
+const uploadPhoto = require('../middleware/multerProfile')
 
 router.get('/', getAllRegister);
 

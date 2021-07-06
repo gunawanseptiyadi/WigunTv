@@ -1,10 +1,10 @@
 const router = require('express').Router();
 
-const { getAllLogin, insertLogin, updateDataLogin  } = require('../controllers/loginController')
+const { getAllLogin, insertLogin, updateDataLogin, loginUsers  } = require('../controllers/loginController')
 
 router.get('/', getAllLogin);
 
-router.post('/', insertLogin);
+router.post('/', loginUsers);
 
 router.patch('/:id', updateDataLogin);
 

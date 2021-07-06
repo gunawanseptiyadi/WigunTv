@@ -6,38 +6,42 @@ const {
   getAllLoginModel,
   postLoginModel,
   updateDataLoginModel,
-  registerUsersModel,
-  loginUsersEmailModel,
+  loginUsersModel,
   patchPassModel
 } = require("../models/loginModel");
 
 module.exports = {
   loginUsers: async (req, res) => {
     try {
-      const { email, password } = req.body;
-      const checkDataUser = await loginUsersEmailModel(email);
+        console.log(req.body)
+      const { username, password } = req.body;
+      const checkDataUser = await loginUsersModel(username);
+      console.log(checkDataUser)
       if (checkDataUser.length > 0) {
         const checkPassword = bcrypt.compareSync(
           password,
           checkDataUser[0].password
         );
         if (checkPassword) {
-          const { id_log, username, email } = checkDataUser[0];
-          const payload = {
-            id_log,
-            username,
-            email,
-          };
+
+        //   const { id_log, username, email } = checkDataUser[0];
+        //   const payload = {
+        //     id_log,
+        //     username,
+        //     email,
+        //   };
         //   const token = jwt.sign(payload, "RAHASIA", { expiresIn: "3h" });
         //   const result = { ...payload, token };
-          return helper.response(res, 200, "You are Loging in !", result);
+
+          return response.response(res, 200, "You are Loging in !");
         } else {
-          return helper.response(res, 400, "Password Incorrect !");
+          return response.response(res, 400, "Password Incorrect !");
         }
       } else {
-        return helper.response(res, 400, "Email not registered !");
+        return response.response(res, 400, "username not registered !");
       }
     } catch (error) {
+        console.log(error)
       return helper.response(res, 400, "Bad Request", error);
     }
   },
