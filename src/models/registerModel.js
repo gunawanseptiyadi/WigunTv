@@ -1,6 +1,19 @@
 const client = require("../config/postgre");
 
 module.exports = {
+    getUserByIdModel: (id) => {
+        return new Promise((resolve, reject) => {
+            client.query(`SELECT * FROM register WHERE id_reg = ${id}`, (error, result) => {
+                if(!error) {
+                    resolve(result.rows);
+                    //kenapa rows karena datanya ada di dalam rows
+                } else {
+                    reject(new Error(error));
+                }
+            });
+        });
+    },
+    
     getAllRegisterModel: () => {
         return new Promise((resolve, reject) => {
             client.query("SELECT * FROM register", (error, result) => {

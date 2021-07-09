@@ -1,11 +1,13 @@
 const router = require('express').Router();
 
-const { getAllLogin, insertLogin, updateDataLogin, loginUsers  } = require('../controllers/loginController')
+const { authorization } = require('../middleware/auth');
+
+const { getAllLogin, updateDataLogin, loginUsers  } = require('../controllers/loginController')
 
 router.get('/', getAllLogin);
 
 router.post('/', loginUsers);
 
-router.patch('/:id', updateDataLogin);
+router.patch('/:id', authorization, updateDataLogin);
 
 module.exports = router;

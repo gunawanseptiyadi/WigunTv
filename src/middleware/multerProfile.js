@@ -29,7 +29,7 @@ const fileFilter = (request, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fieldSize: 2 },
+  limits: { fieldSize: 20 },
 }).single("photo_profil");
 
 const uploadFilter = (request, response, next) => {

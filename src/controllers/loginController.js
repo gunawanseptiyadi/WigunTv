@@ -1,39 +1,34 @@
 const response = require("../helpers/response");
 const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 const {
   getAllLoginModel,
   postLoginModel,
   updateDataLoginModel,
   loginUsersModel,
-  patchPassModel
+  patchPassModel,
 } = require("../models/loginModel");
 
 module.exports = {
   loginUsers: async (req, res) => {
     try {
-        console.log(req.body)
+      console.log(req.body);
       const { username, password } = req.body;
       const checkDataUser = await loginUsersModel(username);
-      console.log(checkDataUser)
+      console.log(checkDataUser);
       if (checkDataUser.length > 0) {
         const checkPassword = bcrypt.compareSync(
           password,
           checkDataUser[0].password
         );
         if (checkPassword) {
+          const { username } = checkDataUser[0]
+          const payload = { username }
+          const token = jwt.sign(payload, 'RAHASIA', { expiresIn: '30m' })
+          const result = { ...payload, token }
 
-        //   const { id_log, username, email } = checkDataUser[0];
-        //   const payload = {
-        //     id_log,
-        //     username,
-        //     email,
-        //   };
-        //   const token = jwt.sign(payload, "RAHASIA", { expiresIn: "3h" });
-        //   const result = { ...payload, token };
-
-          return response.response(res, 200, "You are Loging in !");
+          return response.response(res, 200, "You are Loging in !", result);
         } else {
           return response.response(res, 400, "Password Incorrect !");
         }
@@ -41,7 +36,7 @@ module.exports = {
         return response.response(res, 400, "username not registered !");
       }
     } catch (error) {
-        console.log(error)
+      console.log(error);
       return helper.response(res, 400, "Bad Request", error);
     }
   },
