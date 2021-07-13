@@ -15,13 +15,19 @@ module.exports = {
   getUserById: async (req, res) => {
     try {
       const { id } = req.params;
-      console.log(id)
+      // console.log(id)
       const result = await getUserByIdModel(id);
+      // const fullName = result.first_name +" "+ result.last_name
+      // const newResult = {
+      //   fullName,
+      //   ...result 
+      // }
+
       return response.response(
         res,
         200,
         `Success get register id data = ${id}`,
-        result
+        newResult
       );
     } catch (error) {
       console.log(error);
